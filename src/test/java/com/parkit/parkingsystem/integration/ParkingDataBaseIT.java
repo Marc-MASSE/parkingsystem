@@ -3,6 +3,8 @@ package com.parkit.parkingsystem.integration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.util.Date;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,6 +79,11 @@ public class ParkingDataBaseIT {
 		Ticket ticketBeforeTest = ticketDAO.getTicket("ABCDEF");
 		assertThat(ticketBeforeTest.getOutTime()).isNull();
 		assertThat(ticketBeforeTest.getPrice()).isEqualTo(0);
+
+		// inTime back one hour
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+		ticketBeforeTest.setInTime(inTime);
 
 		parkingService.processExitingVehicle();
 		// TODO: check that the fare generated and out time are populated correctly in
