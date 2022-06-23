@@ -10,12 +10,12 @@ public class FareCalculatorService {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 		}
 
-		double inTime = ticket.getInTime().getTime();
-		double outTime = ticket.getOutTime().getTime();
+		Long inTime = ticket.getInTime().getTime();
+		Long outTime = ticket.getOutTime().getTime();
 
 		// TODO: Some tests are failing here. Need to check if this logic is correct
 		// Fixed
-		double duration = (outTime - inTime) / (60 * 60 * 1000);
+		double duration = ((double) (outTime - inTime)) / (60 * 60 * 1000);
 
 		// 30 minutes free
 		if (duration < 0.5) {
