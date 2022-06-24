@@ -60,7 +60,6 @@ public class ParkingDataBaseIT {
 		// to verify that ticket not already exist
 		Ticket ticketBeforeTest = ticketDAO.getTicket("ABCDEF");
 		assertThat(ticketBeforeTest).isNull();
-		;
 
 		parkingService.processIncomingVehicle(new Date());
 		// TODO: check that a ticket is actualy saved in DB and Parking table is updated
