@@ -15,7 +15,9 @@ public class InteractiveShell {
 
 	public static void loadInterface() {
 		logger.info("App initialized!!!");
+		System.out.println("---------------------------------------------------");
 		System.out.println("Welcome to Parking System!");
+		System.out.println("---------------------------------------------------");
 
 		boolean continueApp = true;
 		InputReaderUtil inputReaderUtil = new InputReaderUtil();
@@ -43,6 +45,7 @@ public class InteractiveShell {
 			default:
 				System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
 			}
+			System.out.println("---------------------------------------------------");
 		}
 	}
 

@@ -93,4 +93,38 @@ public class ParkingDataBaseIT {
 		assertThat(ticketTest.getPrice()).isNotEqualTo(0);
 	}
 
+	@Test
+	public void testDiscountForRecurringUsers() {
+
+		// Simulation : Car "ABCDEF" park at current Time, exit 1 hour after,
+		// park again 2 hours after and exit again 3 hours after
+		Date firstInTime = new Date();
+		Date firstOutTime = new Date();
+		Date secondInTime = new Date();
+		Date secondOutTime = new Date();
+
+		firstOutTime.setTime(firstInTime.getTime() + (1 * 60 * 60 * 1000));
+		secondInTime.setTime(firstInTime.getTime() + (2 * 60 * 60 * 1000));
+		secondOutTime.setTime(firstInTime.getTime() + (3 * 60 * 60 * 1000));
+
+		//
+		ParkingService parkingFirstService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingFirstService.processIncomingVehicle(firstInTime);
+		parkingFirstService.processExitingVehicle(firstOutTime);
+
+		Ticket firstTicketTest = ticketDAO.getTicket("ABCDEF");
+
+		ParkingService parkingSecondService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingSecondService.processIncomingVehicle(secondInTime);
+		parkingSecondService.processExitingVehicle(secondOutTime);
+
+		Ticket secondTicketTest = ticketDAO.getTicket("ABCDEF");
+
+		// TODO: check that the fare generated is reduced by 5%
+		assertThat(secondTicketTest.getPrice()).isEqualTo(firstTicketTest.getPrice());
+	}
+
+	
+	
+	
 }
