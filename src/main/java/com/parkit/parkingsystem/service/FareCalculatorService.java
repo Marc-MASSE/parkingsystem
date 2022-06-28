@@ -1,6 +1,7 @@
 package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
+import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
@@ -23,6 +24,9 @@ public class FareCalculatorService {
 		} else {
 			duration -= 0.5;
 		}
+
+		// 5% discount for recurring user
+		duration *= TicketDAO.isRecurringUser(ticket.getVehicleRegNumber());
 
 		switch (ticket.getParkingSpot().getParkingType()) {
 		case CAR: {
