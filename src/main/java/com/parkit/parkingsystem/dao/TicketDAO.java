@@ -91,28 +91,31 @@ public class TicketDAO {
 	}
 
 	@SuppressWarnings("finally")
-	public double isRecurringUser(String vehicleRegNumber) {
+	public boolean isRecurringUser(String vehicleRegNumber) {
 		Connection con = null;
-		double discount = 0;
+		boolean recurring = false;
 		try {
 			con = dataBaseConfig.getConnection();
 			PreparedStatement ps = con.prepareStatement(DBConstants.IS_RECURRING_USER);
 			// VEHICLE_REG_NUMBER if OUT_TIME is not Null
 			ps.setString(1, vehicleRegNumber);
 			ResultSet rs = ps.executeQuery();
-			discount = 0.95;
+
+			if (rs.next()) {
+				recurring = true;
+			}
 
 			dataBaseConfig.closeResultSet(rs);
 			dataBaseConfig.closePreparedStatement(ps);
 
 		} catch (Exception ex) {
 			logger.info("Vehicule not found in DataBase", ex);
-			discount = 1;
 
 		} finally {
 			dataBaseConfig.closeConnection(con);
-			return discount;
+
 		}
+		return recurring;
 	}
 
 }

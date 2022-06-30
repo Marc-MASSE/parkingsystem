@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
@@ -74,7 +75,10 @@ public class ParkingDataBaseIT {
 
 		// inTime one hour before
 		Date inTime = new Date();
-		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+		Date outTime = new Date();
+		// inTime.setTime(System.currentTimeMillis());
+		inTime.setTime(0);
+		outTime.setTime(60 * 60 * 1000);
 
 		// testParkingACar();
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -85,27 +89,29 @@ public class ParkingDataBaseIT {
 		assertThat(ticketBeforeTest.getOutTime()).isNull();
 		assertThat(ticketBeforeTest.getPrice()).isEqualTo(0);
 
-		parkingService.processExitingVehicle(new Date());
+		parkingService.processExitingVehicle(outTime);
 		// TODO: check that the fare generated and out time are populated correctly in
 		// the database
 		Ticket ticketTest = ticketDAO.getTicket("ABCDEF");
 		assertThat(ticketTest.getOutTime()).isNotNull();
-		assertThat(ticketTest.getPrice()).isNotEqualTo(0);
+		assertThat(ticketTest.getPrice()).isEqualTo(0.75);
 	}
 
 	@Test
 	public void testDiscountForRecurringUsers() {
 
-		// Simulation : Car "ABCDEF" park at current Time, exit 1 hour after,
+		// Simulation : Car "ABCDEF" park at 0 Time, exit 1 hour after,
 		// park again 2 hours after and exit again 3 hours after
 		Date firstInTime = new Date();
 		Date firstOutTime = new Date();
 		Date secondInTime = new Date();
 		Date secondOutTime = new Date();
 
-		firstOutTime.setTime(firstInTime.getTime() + (1 * 60 * 60 * 1000));
-		secondInTime.setTime(firstInTime.getTime() + (2 * 60 * 60 * 1000));
-		secondOutTime.setTime(firstInTime.getTime() + (3 * 60 * 60 * 1000));
+		// firstInTime.setTime(System.currentTimeMillis());
+		firstInTime.setTime(0);
+		firstOutTime.setTime(1 * 60 * 60 * 1000);
+		secondInTime.setTime(2 * 60 * 60 * 1000);
+		secondOutTime.setTime(3 * 60 * 60 * 1000);
 
 		//
 		ParkingService parkingFirstService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -113,6 +119,8 @@ public class ParkingDataBaseIT {
 		parkingFirstService.processExitingVehicle(firstOutTime);
 
 		Ticket firstTicketTest = ticketDAO.getTicket("ABCDEF");
+		// check that the fare for a CAR during 1 hour is correctly calculated
+		assertThat(firstTicketTest.getPrice()).isEqualTo(0.75);
 
 		ParkingService parkingSecondService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingSecondService.processIncomingVehicle(secondInTime);
@@ -120,11 +128,8 @@ public class ParkingDataBaseIT {
 
 		Ticket secondTicketTest = ticketDAO.getTicket("ABCDEF");
 
-		// TODO: check that the fare generated is reduced by 5%
-		assertThat(secondTicketTest.getPrice()).isEqualTo(firstTicketTest.getPrice());
+		// TODO: check that the fare generated is for 1 hour reduced by 5%
+		assertThat(secondTicketTest.getPrice()).isEqualTo(0.75 * Fare.FIVE_PERCENT_DISCOUNT);
 	}
 
-	
-	
-	
 }
