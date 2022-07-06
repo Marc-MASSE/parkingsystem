@@ -50,23 +50,39 @@
 			<version>2.23.4</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
 		<dependency>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.5</version>
-			<type>maven-plugin</type>
+			<version>0.8.8</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-assembly-plugin</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-site-plugin</artifactId>
+			<version>4.0.0-M2</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
 			<version>3.23.1</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs -->
+		<dependency>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs</artifactId>
+			<version>4.7.1</version>
+			<type>pom</type>
 		</dependency>
 
 	</dependencies>
@@ -134,7 +150,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>0.8.8</version>
 				<executions>
 					<execution>
 						<goals>
@@ -150,6 +166,13 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Spotbugs -->
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>3.1.8</version>
+			</plugin>
+
 		</plugins>
 	</build>
 
