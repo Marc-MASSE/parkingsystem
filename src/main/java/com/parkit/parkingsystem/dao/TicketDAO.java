@@ -90,7 +90,6 @@ public class TicketDAO {
 		return false;
 	}
 
-	@SuppressWarnings("finally")
 	public boolean isRecurringUser(String vehicleRegNumber) {
 		Connection con = null;
 		boolean recurring = false;

@@ -81,6 +81,7 @@
                                     </mainClass>
 								</manifest>
 							</archive>
+							<!-- remove executable in executable-jar-with-dependencies -->
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
@@ -138,9 +139,36 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<!-- Exclude classes not to be tested-->
+						<configuration>
+							<excludes>
+								<exclude>com/parkit/parkingsystem/*</exclude>
+								<exclude>com/parkit/parkingsystem/config/*</exclude>
+								<exclude>com/parkit/parkingsystem/constants/*</exclude>
+								<exclude>com/parkit/parkingsystem/dao/*</exclude>
+								<exclude>com/parkit/parkingsystem/model/ParkingSpot.*</exclude>
+								<exclude>com/parkit/parkingsystem/service/InteractiveShell.*</exclude>
+								<exclude>com/parkit/parkingsystem/service/ParkingService.*</exclude>
+								<exclude>com/parkit/parkingsystem/util/*</exclude>
+							</excludes>
+						</configuration>
+
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Maven plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.8.2</version>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
 			<!-- Spotbugs -->
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
@@ -148,15 +176,9 @@
 				<version>3.1.8</version>
 			</plugin>
 
-			<!-- plugin Maven -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.8.2</version>
-			</plugin>
-
 
 		</plugins>
-	</build>
+
+	</reporting>
 
 </project>
