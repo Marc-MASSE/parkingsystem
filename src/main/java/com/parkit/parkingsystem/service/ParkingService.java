@@ -5,6 +5,7 @@ import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -33,9 +34,17 @@ public class ParkingService {
 			ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
 			if (parkingSpot != null && parkingSpot.getId() > 0) {
 				String vehicleRegNumber = getVehichleRegNumber();
+
+				// Welcome back message
+				if (ticketDAO.isRecurringUser(vehicleRegNumber)) {
+					System.out.println(
+							"Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+				}
+
 				parkingSpot.setAvailable(false);
-				parkingSpotDAO.updateParking(parkingSpot);// allot this parking space and mark it's availability as
-															// false
+
+				// allot this parking space and mark it's availability as false
+				parkingSpotDAO.updateParking(parkingSpot);
 
 				Date inTime = entryTime;
 				Ticket ticket = new Ticket();
@@ -103,9 +112,17 @@ public class ParkingService {
 		try {
 			String vehicleRegNumber = getVehichleRegNumber();
 			Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+			double discount = Fare.NO_DISCOUNT;
 			Date outTime = entryTime;
+
 			ticket.setOutTime(outTime);
-			fareCalculatorService.calculateFare(ticket);
+
+			// price -5% for recurring vehicle
+			if (ticketDAO.isRecurringUser(vehicleRegNumber)) {
+				discount = Fare.FIVE_PERCENT_DISCOUNT;
+			}
+			fareCalculatorService.calculateFare(ticket, discount);
+
 			if (ticketDAO.updateTicket(ticket)) {
 				ParkingSpot parkingSpot = ticket.getParkingSpot();
 				parkingSpot.setAvailable(true);

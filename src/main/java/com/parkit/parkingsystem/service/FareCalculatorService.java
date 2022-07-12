@@ -5,7 +5,12 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
-	public void calculateFare(Ticket ticket) {
+	// private TicketDAO ticketDAO;
+
+	public void calculateFare(Ticket ticket, double discount) {
+
+		// ticketDAO = null;
+
 		if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 		}
@@ -23,6 +28,9 @@ public class FareCalculatorService {
 		} else {
 			duration -= 0.5;
 		}
+
+		// 5% discount for recurring user
+		duration *= discount;
 
 		switch (ticket.getParkingSpot().getParkingType()) {
 		case CAR: {
