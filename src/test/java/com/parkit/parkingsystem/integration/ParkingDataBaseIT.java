@@ -118,10 +118,6 @@ public class ParkingDataBaseIT {
 		parkingFirstService.processIncomingVehicle(firstInTime);
 		parkingFirstService.processExitingVehicle(firstOutTime);
 
-		Ticket firstTicketTest = ticketDAO.getTicket("ABCDEF");
-		// check that the fare for a CAR during 1 hour is correctly calculated
-		assertThat(firstTicketTest.getPrice()).isEqualTo(0.75);
-
 		ParkingService parkingSecondService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingSecondService.processIncomingVehicle(secondInTime);
 		parkingSecondService.processExitingVehicle(secondOutTime);
