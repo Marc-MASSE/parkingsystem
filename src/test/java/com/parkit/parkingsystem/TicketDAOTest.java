@@ -44,16 +44,27 @@ public class TicketDAOTest {
 		ticket.setVehicleRegNumber("TEST");
 
 		assertThat(ticketDAOTest.saveTicket(ticket)).isTrue();
-
-		Ticket ticketTest = ticketDAOTest.getTicket("TEST");
-
-		assertThat(ticketTest.getVehicleRegNumber()).isEqualTo("TEST");
 	}
 
 	@Test
 	public void saveTicket_should_return_false() {
 
 		assertThat(ticketDAOTest.saveTicket(null)).isFalse();
+	}
+
+	@Test
+	public void getTicket_getVehicleRegNumber_should_return_TEST() {
+
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+		ticket.setInTime(new Date(System.currentTimeMillis()));
+		ticket.setParkingSpot(parkingSpot);
+		ticket.setVehicleRegNumber("TEST");
+
+		ticketDAOTest.saveTicket(ticket);
+
+		Ticket ticketTest = ticketDAOTest.getTicket("TEST");
+
+		assertThat(ticketTest.getVehicleRegNumber()).isEqualTo("TEST");
 	}
 
 	@Test
