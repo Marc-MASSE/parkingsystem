@@ -118,4 +118,31 @@ public class TicketDAO {
 		return recurring;
 	}
 
+	public boolean isAlreadyHere(String vehicleRegNumber) {
+		Connection con = null;
+		boolean recurring = false;
+		try {
+			con = dataBaseConfig.getConnection();
+			PreparedStatement ps = con.prepareStatement(DBConstants.IS_ALREADY_HERE);
+			// VEHICLE_REG_NUMBER if OUT_TIME is Null
+			ps.setString(1, vehicleRegNumber);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				recurring = true;
+			}
+
+			dataBaseConfig.closeResultSet(rs);
+			dataBaseConfig.closePreparedStatement(ps);
+
+		} catch (Exception ex) {
+			logger.info("Vehicule is already in the parking", ex);
+
+		} finally {
+			dataBaseConfig.closeConnection(con);
+
+		}
+		return recurring;
+	}
+
 }

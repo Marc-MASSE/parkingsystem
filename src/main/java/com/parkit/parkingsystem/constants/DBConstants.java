@@ -11,4 +11,6 @@ public class DBConstants {
 
 	public static final String IS_RECURRING_USER = "select VEHICLE_REG_NUMBER from ticket where VEHICLE_REG_NUMBER = ? and OUT_TIME is not null";
 
+	public static final String IS_ALREADY_HERE = "select VEHICLE_REG_NUMBER from ticket where VEHICLE_REG_NUMBER = ? and OUT_TIME is null";
+
 }
