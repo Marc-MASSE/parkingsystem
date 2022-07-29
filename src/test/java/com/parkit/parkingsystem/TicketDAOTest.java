@@ -94,4 +94,30 @@ public class TicketDAOTest {
 		assertThat(ticketDAOTest.updateTicket(null)).isFalse();
 	}
 
+	@Test
+	public void isAlreadyHere_should_return_true() {
+
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+		ticket.setInTime(new Date(System.currentTimeMillis()));
+		ticket.setParkingSpot(parkingSpot);
+		ticket.setVehicleRegNumber("TEST");
+
+		ticketDAOTest.saveTicket(ticket);
+
+		assertThat(ticketDAOTest.isAlreadyHere("TEST")).isTrue();
+	}
+
+	@Test
+	public void isAlreadyHere_should_return_false() {
+
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+		ticket.setInTime(new Date(System.currentTimeMillis()));
+		ticket.setParkingSpot(parkingSpot);
+		ticket.setVehicleRegNumber("OTHER");
+
+		ticketDAOTest.saveTicket(ticket);
+
+		assertThat(ticketDAOTest.isAlreadyHere("TEST")).isFalse();
+	}
+
 }
