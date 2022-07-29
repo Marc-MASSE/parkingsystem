@@ -4,4 +4,5 @@ com\parkit\parkingsystem\TicketDAOTest.class
 com\parkit\parkingsystem\integration\service\DataBasePrepareService.class
 com\parkit\parkingsystem\ParkingSpotDAOTest.class
 com\parkit\parkingsystem\FareCalculatorServiceTest.class
+com\parkit\parkingsystem\InteractiveShellTest.class
 com\parkit\parkingsystem\integration\config\DataBaseTestConfig.class

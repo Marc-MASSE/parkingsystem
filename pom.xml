@@ -145,7 +145,6 @@
 								<exclude>com/parkit/parkingsystem/*</exclude>
 								<exclude>com/parkit/parkingsystem/config/*</exclude>
 								<exclude>com/parkit/parkingsystem/constants/*</exclude>
-								<exclude>com/parkit/parkingsystem/dao/*</exclude>
 								<exclude>com/parkit/parkingsystem/model/*</exclude>
 								<exclude>com/parkit/parkingsystem/service/InteractiveShell.*</exclude>
 								<exclude>com/parkit/parkingsystem/service/ParkingService.*</exclude>
