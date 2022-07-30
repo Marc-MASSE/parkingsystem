@@ -95,6 +95,46 @@ public class TicketDAOTest {
 	}
 
 	@Test
+	public void isRecurringUser_should_return_true() {
+
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+		ticket.setParkingSpot(parkingSpot);
+		ticket.setVehicleRegNumber("TEST");
+		Date inTime = new Date(0);
+		Date outTime = new Date(0);
+		inTime.setTime(0);
+		outTime.setTime(5 * 60 * 60 * 1000);
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		ticket.setPrice(0);
+
+		ticketDAOTest.saveTicket(ticket);
+
+		assertThat(ticketDAOTest.isRecurringUser("TEST")).isTrue();
+	}
+
+	@Test
+	public void isRecurringUser_should_return_false() {
+
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+		ticket.setParkingSpot(parkingSpot);
+		ticket.setVehicleRegNumber("OTHER");
+		Date inTime = new Date(0);
+		Date outTime = new Date(0);
+		inTime.setTime(0);
+		outTime.setTime(5 * 60 * 60 * 1000);
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		ticket.setPrice(0);
+
+		ticketDAOTest.saveTicket(ticket);
+
+		assertThat(ticketDAOTest.isRecurringUser("TEST")).isFalse();
+	}
+
+	@Test
 	public void isAlreadyHere_should_return_true() {
 
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);

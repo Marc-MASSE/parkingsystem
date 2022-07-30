@@ -20,7 +20,6 @@ public class TicketDAO {
 
 	public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-	@SuppressWarnings("finally")
 	public boolean saveTicket(Ticket ticket) {
 		Connection con = null;
 		try {
